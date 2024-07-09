@@ -45,6 +45,10 @@ class MyDataset(Dataset):
     def __len__(self):
         return len(self.images_list)
 
+    def get_image_path(self, idx):
+        img_path = os.path.join(self.dir_path, self.images_list[idx])
+        return img_path
+
     def __getitem__(self, idx):
         img_path = os.path.join(self.dir_path, self.images_list[idx])
         image = Image.open(img_path)
@@ -68,6 +72,6 @@ def split_and_load(dir_path, data_transforms=data_transforms):
     test_dataset.dataset.transform = data_transforms['test']
     train_loader = DataLoader(train_dataset, batch_size=16, shuffle=True, num_workers=0)
     val_loader = DataLoader(val_dataset, batch_size=16, shuffle=False, num_workers=0)
-    test_loader = DataLoader(test_dataset, batch_size=16, shuffle=False, num_workers=0)
+    test_loader = DataLoader(test_dataset, batch_size=1, shuffle=False, num_workers=0)
 
-    return train_loader, val_loader, test_dataset
+    return train_loader, val_loader, test_loader, test_dataset
